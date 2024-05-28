@@ -134,29 +134,8 @@ export const tolakLaporan = async (req, res) => {
     },
   });
   if (!laporan) return res.status(404).json({ msg: "laporan tidak ditemukan" });
-  let fileName = laporan.file;
-  if (req.files !== null) {
-    const file = req.files.file;
-    const timestamp = new Date().getTime();
-    const fileSize = file.data.length;
-    const ext = path.extname(file.name);
-    fileName = file.md5 + timestamp + ext;
-    const allowedType = [".jpg", ".jpeg", ".png"];
-    if (!allowedType.includes(ext.toLowerCase()))
-      return res.status(422).json({ msg: "File type not supported" });
-    if (fileSize > 5000000)
-      return res.status(422).json({ msg: "File size too large (Max 5MB)" });
-
-    const filePath = `./public/24Bali/${laporan.file}`;
-    fs.unlinkSync(filePath);
-
-    file.mv(`./public/24Bali/${fileName}`, (err) => {
-      if (err) return res.status(500).json({ msg: err.message });
-    });
-  }
 
   const { Title, Content, Lokasi } = req.body;
-  const url = `${req.protocol}://${req.get("host")}/24Bali//${fileName}`;
   try {
     await laporan.update(
       {
@@ -164,7 +143,6 @@ export const tolakLaporan = async (req, res) => {
         Content: Content,
         Lokasi: Lokasi,
         Keterangan: "DiTolak",
-        url: url,
       },
       {
         where: {
