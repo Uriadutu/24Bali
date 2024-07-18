@@ -22,7 +22,10 @@ export const getLaporan = async (req, res) => {
 export const getLaporanByid = async (req, res) => {
   try {
     const response = await Laporan.findOne({
-      where: req.params.id,
+      where: {
+        id_laporan : req.params.id,
+      },
+
       include: [
         {
           model: User,
@@ -69,7 +72,7 @@ export const createLaporan = async (req, res) => {
           Title: Title,
           Content: Content,
           Lokasi: Lokasi,
-          Keterangan: Keterangan,
+          Keterangan: "Diproses",
           file: uniqueFileName,
           url: url,
         });
@@ -142,7 +145,7 @@ export const tolakLaporan = async (req, res) => {
         Title: Title,
         Content: Content,
         Lokasi: Lokasi,
-        Keterangan: "DiTolak",
+        Keterangan: "Ditolak",
       },
       {
         where: {

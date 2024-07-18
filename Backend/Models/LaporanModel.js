@@ -24,21 +24,21 @@ const Laporan = db.define(
       },
     },
     Title: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
     Content: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
     Lokasi: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
       validate: {
         notEmpty: true,
